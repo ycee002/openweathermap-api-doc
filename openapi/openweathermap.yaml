@@ -25,61 +25,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/Weather'
               example:
-                coord:
-                  lon: 3.3792
-                  lat: 6.5244
-                weather:
-                  - id: 211
-                    main: Thunderstorm
-                    description: thunderstorm
-                    icon: "11n"
-                base: stations
-                main:
-                  temp: 298.27
-                  feels_like: 299.29
-                  pressure: 1011
-                  humidity: 94
-                visibility: 8000
-                wind:
-                  speed: 1.54
-                  deg: 220
-                clouds:
-                  all: 20
-                dt: 1750790921
-                sys:
-                  type: 1
-                  id: 1185
-                  country: NG
-                  sunrise: 1750743231
-                  sunset: 1750788231
-                timezone: 3600
-                id: 2566677
-                name: Shogunle
-                cod: 200
+                $ref: '#/components/examples/CurrentWeatherExample'
         '400':
-          description: Bad Request – Please check your latitude and longitude parameters.
+          description: Bad Request. Please check your latitude and longitude parameters.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Latitude and longitude are required"
+                $ref: '#/components/examples/ErrorExample'
         '401':
-          description: Unauthorized – Your API key is either invalid or missing.
+          description: Unauthorized. Your API key is either invalid or missing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "API key is invalid or missing"
+                $ref: '#/components/examples/ErrorExample'
         '500':
-          description: Internal Server Error – An unexpected issue occurred on the server.
+          description: Internal Server Error. An unexpected issue occurred on the server.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Unexpected server error"
+                $ref: '#/components/examples/ErrorExample'
 
   /map/{layer}/{z}/{x}/{y}.png:
     get:
@@ -135,29 +105,29 @@ paths:
                 type: string
                 format: binary
         '401':
-          description: Unauthorized – Your API key is either invalid or missing.
+          description: Unauthorized. Your API key is either invalid or missing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "API key is invalid or missing"
+                $ref: '#/components/examples/ErrorExample'
         '404':
-          description: Not Found – The requested tile or weather layer could not be found.
+          description: Not Found. The requested tile or weather layer could not be found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Tile not found"
+                $ref: '#/components/examples/ErrorExample'
         '500':
-          description: Internal Server Error – An unexpected issue occurred on the server.
+          description: Internal Server Error. An unexpected issue occurred on the server.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Unexpected server error"
+                $ref: '#/components/examples/ErrorExample'
 
   /data/2.5/air_pollution:
     get:
@@ -176,42 +146,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/AirPollution'
               example:
-                coord:
-                  lon: 3.3792
-                  lat: 6.5244
-                list:
-                  - main:
-                      aqi: 1
-                    components:
-                      co: 107.89
-                      no: 0
-                      no2: 0.07
-                      nh3: 0.01
-                    dt: 1750798781
+                $ref: '#/components/examples/AirPollutionExample'
         '400':
-          description: Bad Request – Please check your latitude and longitude parameters.
+          description: Bad Request. Please check your latitude and longitude parameters.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Latitude and longitude are required"
+                $ref: '#/components/examples/ErrorExample'
         '401':
-          description: Unauthorized – Your API key is either invalid or missing.
+          description: Unauthorized. Your API key is either invalid or missing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "API key is invalid or missing"
+                $ref: '#/components/examples/ErrorExample'
         '500':
-          description: Internal Server Error – An unexpected issue occurred on the server.
+          description: Internal Server Error. An unexpected issue occurred on the server.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Unexpected server error"
+                $ref: '#/components/examples/ErrorExample'
 
   /geo/1.0/direct:
     get:
@@ -244,41 +203,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/Geocoding'
               example:
-                - name: London
-                  local_names:
-                    cv: "Лондон"
-                    sl: "London"
-                    gu: "લંડન"
-                    sv: "London"
-                    an: "Londres"
-                  lat: 51.5073219
-                  lon: -0.1276474
-                  country: "GB"
-                  state: "England"
+                $ref: '#/components/examples/GeocodingExample'
         '400':
-          description: Bad Request – The query parameter 'q' is either missing or invalid.
+          description: Bad Request. The query parameter 'q' is either missing or invalid.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Query parameter 'q' is required"
+                $ref: '#/components/examples/ErrorExample'
         '401':
-          description: Unauthorized – Your API key is either invalid or missing.
+          description: Unauthorized. Your API key is either invalid or missing.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "API key is invalid or missing"
+                $ref: '#/components/examples/ErrorExample'
         '500':
-          description: Internal Server Error – An unexpected issue occurred on the server.
+          description: Internal Server Error. An unexpected issue occurred on the server.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
               example:
-                error: "Unexpected server error"
+                $ref: '#/components/examples/ErrorExample'
 
 components:
   securitySchemes:
@@ -518,8 +467,84 @@ components:
     Error:
       type: object
       required:
-        - error
+        - status_code
+        - status_message
+        - success
       properties:
-        error:
+        status_code:
+          type: integer
+          description: HTTP status code of the error.
+        status_message:
           type: string
-          description: A clear and concise error message explaining the issue.
+          description: A detailed message explaining the error.
+        success:
+          type: boolean
+          description: Indicates whether the request was successful. Will always be false for an error.
+
+  examples:
+    CurrentWeatherExample:
+      value:
+        coord:
+          lon: 3.3792
+          lat: 6.5244
+        weather:
+          - id: 211
+            main: Thunderstorm
+            description: thunderstorm
+            icon: "11n"
+        base: stations
+        main:
+          temp: 298.27
+          feels_like: 299.29
+          pressure: 1011
+          humidity: 94
+        visibility: 8000
+        wind:
+          speed: 1.54
+          deg: 220
+        clouds:
+          all: 20
+        dt: 1750790921
+        sys:
+          type: 1
+          id: 1185
+          country: NG
+          sunrise: 1750743231
+          sunset: 1750788231
+        timezone: 3600
+        id: 2566677
+        name: Shogunle
+        cod: 200
+    AirPollutionExample:
+      value:
+        coord:
+          lon: 3.3792
+          lat: 6.5244
+        list:
+          - main:
+              aqi: 1
+            components:
+              co: 107.89
+              no: 0
+              no2: 0.07
+              nh3: 0.01
+            dt: 1750798781
+    GeocodingExample:
+      value:
+        - name: London
+          local_names:
+            cv: "Лондон"
+            sl: "London"
+            gu: "લંડન"
+            sv: "London"
+            an: "Londres"
+          lat: 51.5073219
+          lon: -0.1276474
+          country: "GB"
+          state: "England"
+    ErrorExample:
+      summary: Generic Error Response
+      value:
+        status_code: 400 
+        status_message: "The request was invalid or cannot be otherwise served. Please check your parameters."
+        success: false
